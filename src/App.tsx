@@ -1,7 +1,6 @@
 import WebApp from '@twa-dev/sdk'
 import { signal } from "@preact/signals-react";
 
-const delta = signal(0);
 const count = signal(0);
 
 
