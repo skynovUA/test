@@ -13,6 +13,9 @@ export const App = () => {
         <button onClick={() => WebApp.showAlert(`Hello World! Current count is ${count}`)}>
             Show Alert
         </button>
+        <button onClick={() => count.value++}>
+            Increment Count
+        </button>
       </div>
     </div>
   );
