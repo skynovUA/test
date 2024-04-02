@@ -1,20 +1,41 @@
 import WebApp from "@twa-dev/sdk";
-// import { signal } from "@preact/signals-react";
+import { effect, signal } from "@preact/signals-react";
 
-// const count = signal(0);
+const LOCAL_STORAGE_KEY = "count";
+
+const count = signal(getCount());
+
+function getCount() {
+  const value = localStorage.getItem(LOCAL_STORAGE_KEY);
+  if (value === null) return 0;
+  return JSON.parse(value);
+}
+
+effect(() => {
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(count));
+});
 
 export const App = () => {
   return (
-    // card use tailwindcss
-    <div className="bg-white rounded-lg shadow-lg p-4">
-      <h1 className="text-2xl font-bold">Hello World</h1>
-      <p className="text-gray-600">This is a card component</p>
-      <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2"
-        onClick={() => WebApp.showAlert("Hello World")}
-      >
-        Button
-      </button>
+    <div className="rounded-lg shadow-lg p-4" style={{ 
+      backgroundColor: WebApp.themeParams.bg_color,
+     }}> 
+      <h1 className="text-2xl font-bold">Counter</h1>
+      <p className="text-lg">Count: {count}</p>
+      <div className="flex space-x-4">
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => count.value--}
+        >
+          Decrement
+        </button>
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => count.value++}
+        >
+          Increment
+        </button>
+      </div>
     </div>
   );
 };
